@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Landing Page</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Times New Roman', Times, serif;
+      background-color: #1C1A27;
+      overflow-x: hidden;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      background-color: #333;
+      color: white;
+      width: 100%;
+      padding: 10px 20px;
+      
+      z-index: 1000;
+    }
+
+    #navbar {
+        position: fixed; /* Change to fixed for better visibility control */
+        top: 0; /* Ensure it stays at the top */
+        width: 100%; /* Full width */
+        z-index: 1000; /* Keep it above other elements */
+        transition: top 0.3s; /* Smooth transition */
+    } 
+    nav img.logo, nav img.logo1 {
+      height: 40px;
+      margin-right: 15px;
+      border-radius: 50%;
+    }
+
+    nav .title {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-right: auto;
+    }
+
+    /* Wrapped nav links and search in a container for toggling */
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+      background-color: white;
+      border-radius: 20px;
+      padding: 2px 8px;
+      margin-left: 15px;
+    }
+
+    .search-container input[type="text"] {
+      border: none;
+      width: 100px;
+      padding: 5px;
+      outline: none;
+      border-radius: 20px;
+    }
+
+    .search-container button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* Hamburger menu button, hidden by default, only shows on mobile */
+    .hamburger {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+      margin-left: 15px;
+    }
+
+    /* Mobile sidebar styling */
+    .mobile-sidebar {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      width: 250px;
+      height: 100%;
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 9999;
+      transition: left 0.3s ease;
+    }
+
+    .mobile-sidebar.active {
+      left: 0;
+    }
+
+    .mobile-sidebar a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .mobile-sidebar a:hover {
+      text-decoration: underline;
+    }
+
+    .mobile-sidebar .close-btn {
+      align-self: flex-end;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    section {
+      padding: 40px 20px;
+      color:white;
+    }
+
+    #section1 {
+      position: relative;
+      color: white;
+      width: 100%;
+      height: 60vh;
+      display: flex;
+      overflow: hidden;
+      background-image: url('PRFS.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    #section1 .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.6); /* adjust transparency here */
+      z-index: 1;
+    }
+
+    #section1 h1 {
+      position: absolute;
+      bottom: 5%;
+      left: 5%;
+      z-index: 2;
+      margin: 0;
+      font-size: clamp(1.2rem, 4vw, 2.5rem); /* scales based on screen width */
+      max-width: 90%;
+      line-height: 1.2;
+    }
+
+
+    #section2 {
+      position: relative;
+      width: 100%;
+      overflow:hidden;
+      height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .image-carousel {
+      display: flex;
+      overflow-x: auto;
+      max-width: 90%;
+      gap: 10px;
+      overflow-y: hidden;
+      padding: 20px 0;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .image-carousel img {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      object-fit: cover;
+      border: 3px solid #333;
+      border-radius: 8px;
+      opacity: 50%;
+      transition: transform 0.3s ease;
+      
+    }
+    .image-carousel img:hover {
+      transform: scale(1.5); /* Scale the image when hovered */
+      z-index: 10; /* Ensure it stays on top */
+      opacity: 100%;
+    }
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    }
+
+    .modal-content {
+      margin: auto;
+      display: block;
+      width: 80%;
+      max-width: 700px;
+      object-fit: cover;
+    }
+
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 35px;
+      color: #fff;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #bbb;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    #section2 h1 {
+      margin: 10px 0 0 0;
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      color: #ffffff;
+    }
+
+    #section3 img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 15px 20px;
+      font-size: 0.9em;
+    }
+    .feedback-btn-container {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      display: flex;
+      gap: 20px; /* Space between the buttons */
+      z-index: 1000;
+    }
+    #feedbackBtn {
+      background-color: #2b33a5;
+    }
+    #feedbackBtn1 {
+      background-color: #42a74b;
+    }
+
+    #feedbackBtn, #feedbackBtn1 {
+      padding: 10px 20px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: medium;
+      font-weight: bold;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    @media (max-width: 768px) {
+      #section2 img {
+        width: 100%; /* Full width for images on smaller screens */
+        max-width: 100%; /* Ensure the image uses full width */
+        height: auto;
+      }
+    @media (max-width: 768px) {
+      .image-carousel {
+        max-width: 100%;
+        padding: 10px 0;
+      }
+
+      .image-carousel img {
+        max-width: 100%; /* Ensure image is responsive */
+        margin-right: 10px; /* Space between images */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .image-carousel img {
+        max-width: 100%;
+      }
+    }
+
+      #section2 h1 {
+        font-size: clamp(1.2rem, 4vw, 2rem); /* Adjust font size for smaller screens */
+      }
+
+      #section2 h3 {
+        font-size: 1.2rem; /* Adjust h3 font size for better readability */
+      }
+    }
+
+    @media (max-width: 768px) {
+      .feedback-btn-container {
+        bottom: 20px; /* Adjust bottom position for mobile */
+        right: 20px; /* Adjust right position for mobile */
+        flex-direction: column; /* Stack buttons vertically on mobile */
+        gap: 15px; /* Adjust space between stacked buttons */
+      }
+
+      #feedbackBtn, #feedbackBtn1 {
+        width: 100%; /* Make buttons full-width on small screens */
+      }
+    }
+
+    /* Tablet & Mobile: Responsive stacking */
+    @media (max-width: 768px) {
+      nav {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .nav-links {
+        display: none; /* Hide nav links in nav bar */
+      }
+
+      .hamburger {
+        display: block; /* Show hamburger only on small screens */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mobile sidebar navigation -->
+  <div class="mobile-sidebar" id="mobileSidebar">
+    <div class="close-btn" onclick="toggleSidebar()">✖</div>
+    <a href="#">Schedules</a>
+    <a href="#">Route</a>
+    <a href="#">Community</a>
+    <div class="search-container">
+      <input type="text" placeholder="Search..." />
+      <button type="submit">🔍</button>
+    </div>
+  </div>
+
+  <!-- Main nav -->
+  <nav id="navbar">
+    <img src="logo1.jpg" alt="Logo" class="logo" />
+    <img src="logongprsf.jpg" alt="Logo" class="logo1" />
+    <div class="title">Pasig River Ferry Service</div>
+
+    <!-- Nav links and search (visible only on desktop) -->
+    <div class="nav-links">
+      <div class="search-container">
+        <input type="text" placeholder="Search..." />
+        <button type="submit">🔍</button>
+      </div>
+      <a href="#">Schedules</a>
+      <a href="#">Route</a>
+      <a href="#">Community</a>
+      
+    </div>
+    <div class="feedback-btn-container">
+      <button id="feedbackBtn">Login / Sign in</button>
+      <button id="feedbackBtn1">Create an Account</button>
+    </div>
+    <!-- Hamburger menu for mobile -->
+    <button class="hamburger" id="hamburger" aria-label="Menu">&#9776;</button>
+  </nav>
+
+  <!-- Page Sections -->
+  <section id="section1">
+    <div class="overlay"></div>
+    <h1>Welcome to our PRFS Website!</h1>
+  </section>
+
+  <section id="section2">
+    <div class="image-carousel">
+      <img src="guada Image.webp" alt="About Us Image" />
+      <img src="LSTA.jpg" alt="About Us Image" />
+      <img src="SSTA.jpg" alt="About Us Image" />
+      <img src="SJSTA.jpg" alt="About Us Image" />
+      <img src="VSTA.webp" alt="About Us Image" />
+      <img src="BOAT.jpg" alt="About Us Image" />
+      <img src="BRIDGE.jpg" alt="About Us Image" />
+      <img src="BOAT1.jpg" alt="About Us Image" />
+      <img src="ESCOL.jpg" alt="About Us Image" />
+    </div>
+    <h1>What is Pasig River Ferry Service?</h1>
+    <p>a crucial transportation service operated by the Metropolitan Manila Development Authority (MMDA), serves as an alternative route to Metro Manila’s congested roads. With multiple ferry stations along the Pasig River, the system provides an eco-friendly and traffic-free option for commuters.</p>
+  </section>
+
+  <section id="section3">
+    <h1> PRFS Routes </h1>
+    <img src="route.png" alt="Section 3 Image" />
+  </section>
+
+  <footer>
+    &copy;  Pasig River Ferry Service Website. All rights reserved 2025.
+  </footer>
+
+  <script>
+    // Toggle sidebar function
+    function toggleSidebar() {
+      document.getElementById("mobileSidebar").classList.toggle("active");
+    }
+  
+    // Ensure button works even without inline onclick
+    const hamburgerBtn = document.getElementById("hamburger");
+    if (hamburgerBtn) {
+      hamburgerBtn.addEventListener("click", toggleSidebar);
+    }
+  
+    // Navbar and Feedback Button Scroll Logic
+    let lastScrollTop = 0;
+    const navbar = document.getElementById("navbar");
+    const feedbackBtn = document.getElementById("feedbackBtn");
+    const feedbackBtn1 = document.getElementById("feedbackBtn1");
+  
+    window.addEventListener('scroll', function () {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  
+      if (scrollTop > lastScrollTop) {
+        // Scrolling down
+        navbar.style.top = "-70px";
+        feedbackBtn.style.opacity = "0";
+        feedbackBtn.style.transform = "translateY(100px)";
+        feedbackBtn1.style.opacity = "0";
+        feedbackBtn1.style.transform = "translateY(100px)";
+      } else {
+        // Scrolling up
+        navbar.style.top = "0";
+        feedbackBtn.style.opacity = "1";
+        feedbackBtn.style.transform = "translateY(0)";
+        feedbackBtn1.style.opacity = "1";
+        feedbackBtn1.style.transform = "translateY(0)";
+      }
+  
+      lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    });
+  
+    // Image Carousel swipe logic
+    const carousel = document.querySelector('.image-carousel');
+    let isMouseDown = false;
+    let startX;
+    let scrollLeft;
+  
+    carousel.addEventListener('mousedown', (e) => {
+      isMouseDown = true;
+      startX = e.pageX - carousel.offsetLeft;
+      scrollLeft = carousel.scrollLeft;
+    });
+  
+    carousel.addEventListener('mouseleave', () => {
+      isMouseDown = false;
+    });
+  
+    carousel.addEventListener('mouseup', () => {
+      isMouseDown = false;
+    });
+  
+    carousel.addEventListener('mousemove', (e) => {
+      if (!isMouseDown) return;
+      e.preventDefault();
+      const x = e.pageX - carousel.offsetLeft;
+      const walk = (x - startX) * 1; // Adjust scroll speed (higher multiplier for faster scroll)
+      carousel.scrollLeft = scrollLeft - walk;
+    });
+  </script>
+  
+</body>
+</html>
