@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Landing Page</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Times New Roman', Times, serif;
+      background-color: #1C1A27;
+      overflow-x: hidden;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      background-color: #333;
+      color: white;
+      width: 100%;
+      padding: 10px 20px;
+      
+      z-index: 1000;
+    }
+
+    #navbar {
+        position: fixed; /* Change to fixed for better visibility control */
+        top: 0; /* Ensure it stays at the top */
+        width: 100%; /* Full width */
+        z-index: 1000; /* Keep it above other elements */
+        transition: top 0.3s; /* Smooth transition */
+    } 
+    nav img.logo, nav img.logo1 {
+      height: 40px;
+      margin-right: 15px;
+      border-radius: 50%;
+    }
+
+    nav .title {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-right: auto;
+    }
+
+    /* Wrapped nav links and search in a container for toggling */
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+      background-color: white;
+      border-radius: 20px;
+      padding: 2px 8px;
+      margin-left: 15px;
+    }
+
+    .search-container input[type="text"] {
+      border: none;
+      width: 100px;
+      padding: 5px;
+      outline: none;
+      border-radius: 20px;
+    }
+
+    .search-container button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* Hamburger menu button, hidden by default, only shows on mobile */
+    .hamburger {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+      margin-left: 15px;
+    }
+
+    /* Mobile sidebar styling */
+    .mobile-sidebar {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      width: 250px;
+      height: 100%;
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 9999;
+      transition: left 0.3s ease;
+    }
+
+    .mobile-sidebar.active {
+      left: 0;
+    }
+
+    .mobile-sidebar a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .mobile-sidebar a:hover {
+      text-decoration: underline;
+    }
+
+    .mobile-sidebar .close-btn {
+      align-self: flex-end;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    section {
+      padding: 40px 20px;
+      color:white;
+    }
+
+    #section1 {
+      position: relative;
+      color: white;
+      width: 100%;
+      height: 60vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      background-image: url('PRFS.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    #section1 .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.6); /* adjust transparency here */
+      z-index: 1;
+    }
+
+    #section1 h1 {
+      position: relative;
+      color: white;
+      z-index: 999; /* Makes sure text is above the overlay */
+    }
+
+
+    #section2 img {
+      width: 300px;
+      height: 200px;
+      object-fit: cover;
+      border: 3px solid #333;
+      border-radius: 8px;
+      display: block;
+      margin: 0 auto 20px auto;
+    }
+
+    #section2 h3 {
+      margin: 0;
+      font-weight: normal;
+      color: #555;
+    }
+
+    #section2 h1 {
+      margin: 10px 0 0 0;
+      font-size: 2em;
+      color: #222;
+    }
+
+    #section3 img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 15px 20px;
+      font-size: 0.9em;
+    }
+
+    /* Tablet & Mobile: Responsive stacking */
+    @media (max-width: 768px) {
+      nav {
+        justify-content: space-between;
+      }
+
+      .nav-links {
+        display: none; /* Hide nav links in nav bar */
+      }
+
+      .hamburger {
+        display: block; /* Show hamburger only on small screens */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mobile sidebar navigation -->
+  <div class="mobile-sidebar" id="mobileSidebar">
+    <div class="close-btn" onclick="toggleSidebar()">✖</div>
+    <a href="#">Schedules</a>
+    <a href="#">Route</a>
+    <a href="#">Community</a>
+    <div class="search-container">
+      <input type="text" placeholder="Search..." />
+      <button type="submit">🔍</button>
+    </div>
+  </div>
+
+  <!-- Main nav -->
+  <nav id="navbar">
+    <img src="logo1.jpg" alt="Logo" class="logo" />
+    <img src="logongprsf.jpg" alt="Logo" class="logo1" />
+    <div class="title">Pasig River Ferry Service</div>
+
+    <!-- Nav links and search (visible only on desktop) -->
+    <div class="nav-links">
+      <div class="search-container">
+        <input type="text" placeholder="Search..." />
+        <button type="submit">🔍</button>
+      </div>
+      <a href="#">Schedules</a>
+      <a href="#">Route</a>
+      <a href="#">Community</a>
+      
+    </div>
+
+    <!-- Hamburger menu for mobile -->
+    <button class="hamburger" id="hamburger" aria-label="Menu">&#9776;</button>
+  </nav>
+
+  <!-- Page Sections -->
+  <section id="section1">
+    <div class="overlay"></div>
+    <h1>Welcome to Our Site</h1>
+  </section>
+
+  <section id="section2">
+    <img src="image2.jpg" alt="About Us Image" />
+    <h3>About Us</h3>
+    <h1>Simple About Us Section</h1>
+  </section>
+
+  <section id="section3">
+    <img src="route.png" alt="Section 3 Image" />
+  </section>
+
+  <footer>
+    &copy; 2024 My Website. All rights reserved.
+  </footer>
+
+  <script>
+// Toggle sidebar function
+function toggleSidebar() {
+    document.getElementById("mobileSidebar").classList.toggle("active");
+}
+
+// Ensure button works even without inline onclick
+const hamburgerBtn = document.getElementById("hamburger");
+if (hamburgerBtn) {
+    hamburgerBtn.addEventListener("click", toggleSidebar);
+}
+let lastScrollTop = 0;
+
+window.addEventListener('scroll', function() {
+    const navbar = document.getElementById("navbar");
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (scrollTop > lastScrollTop) {
+        // Scrolling down
+        navbar.style.top = "-70px"; // Adjust this value based on your navbar height
+    } else {
+        // Scrolling up
+        navbar.style.top = "0";
+    }
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For Mobile or negative scrolling
+});
+  </script>
+
+</body>
+</html>
